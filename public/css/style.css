@@ -1,0 +1,108 @@
+html, body {
+    height: 100%;
+    width: 1200px;
+    margin: 20px 100px;
+    padding: 0;
+}
+
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+.tab button:hover {
+    background-color: #ddd;
+}
+
+.tab button.active {
+    background-color: #ccc;
+}
+
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.kitten {
+    float: left;
+    width: 350px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 10px 50px;
+}
+
+.modal {
+    padding: 50px 20px;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 250px;
+    top: 20px;
+    width: 800px;
+    height: 800px;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(255,255,255,1);
+}
+
+#modal-header {
+    padding: 10px;
+    margin: 0;
+    top: 0;
+    float: right;
+}
+
+#modal-content{
+    top: 30px;
+    width: 100%;
+}
+
+.close {
+    color: black;
+    float: left;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#close-button {
+    position: absolute;
+    float: left;
+    bottom: 0;
+}
+
+.sort-buttons .button {
+    float: left;
+}
+ #modal-image{
+     float: left;
+ }
+#modal-map {
+    float: right;
+    top:0;
+    height: 200px;
+    width: 500px;
+    border: solid;
+}
+
+
+
+
