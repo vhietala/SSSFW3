@@ -99,6 +99,7 @@ const dynamicSort = property => {
 const categoryButtonsDiv = '.category-buttons';
 
 const addCategoryButtons = items => {
+  document.querySelector(categoryButtonsDiv).innerHTML = '';
   const buttonAll = document.createElement('button');
   buttonAll.textContent = 'All';
   buttonAll.addEventListener('click', evt => {
