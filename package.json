@@ -1,19 +1,20 @@
 {
   "name": "w3wa",
   "version": "1.0.0",
-  "description": "SSSF week 2 weekly assignment",
+  "description": "SSSF week 3 weekly assignment",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "",
+  "author": "Ville",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.2",
     "dotenv": "^5.0.1",
     "exif": "^0.6.0",
     "express": "^4.16.3",
+    "fs-extra": "^5.0.0",
     "jsonfile": "^4.0.0",
     "moment": "^2.21.0",
     "mongoose": "^5.0.11",

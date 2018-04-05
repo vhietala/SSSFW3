@@ -1,2 +1,2 @@
-# SSSFW2
-SSSF week 2 weekly assignment
+# SSSFW3
+SSSF week 3 weekly assignment

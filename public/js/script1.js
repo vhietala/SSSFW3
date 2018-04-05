@@ -8,7 +8,6 @@ let picArray = [];
 const filteredArray = [];
 // const request = new XMLHttpRequest();
 
-
 const fillDiv = itemsArray => {
   for (const item of itemsArray) {
     const div = document.createElement('div');
@@ -16,12 +15,16 @@ const fillDiv = itemsArray => {
     const title = document.createElement('h1');
     const details = document.createElement('p');
     const button = document.createElement('button');
+    const deleteButton = document.createElement('button');
+    const editButton = document.createElement('button');
     const date = document.createElement('p');
     img.src = item.thumbnail;
     div.className = 'kitten';
     title.textContent = item.title;
     details.textContent = item.details;
     button.textContent = 'View';
+    editButton.textContent = 'Edit';
+    deleteButton.textContent = 'Delete';
     const imgDate = new Date(item.time);
     date.textContent = imgDate.toLocaleDateString();
     div.appendChild(img);
@@ -29,6 +32,8 @@ const fillDiv = itemsArray => {
     div.appendChild(details);
     div.appendChild(date);
     div.appendChild(button);
+    div.appendChild(editButton);
+    div.appendChild(deleteButton);
     button.addEventListener('click', evt => {
       console.log(evt.target);
       document.querySelector(modalImage).setAttribute('src', item.image);
@@ -36,6 +41,26 @@ const fillDiv = itemsArray => {
       modal.style.display = 'block';
       initMap(item);
       console.log(item.title);
+    });
+    deleteButton.addEventListener('click', evt => {
+      console.log(evt.target);
+      const url = '/delete/' + item._id;
+      fetch(url, {
+        method: 'delete',
+      }).then(resp => {
+        console.log(resp);
+        update();
+      });
+    });
+    editButton.addEventListener('click', evt => {
+      console.log(evt.target);
+      const url = '/edit/' + item._id;
+      fetch(url, {
+        method: 'get',
+      }).then(resp => {
+        console.log(resp);
+        update();
+      });
     });
     document.querySelector(container).appendChild(div);
   }
@@ -83,8 +108,7 @@ const addCategoryButtons = items => {
   });
   document.querySelector(categoryButtonsDiv).appendChild(buttonAll);
 
-  const itemCategories = items.map(item => item.category).
-      sort().
+  const itemCategories = items.map(item => item.category).sort().
       reduce((accumulator, current) => {
         const length = accumulator.length;
         if (length === 0 || accumulator[length - 1] !== current) {
@@ -92,46 +116,49 @@ const addCategoryButtons = items => {
         }
         return accumulator;
       }, []);
-  console.log(itemCategories);
+  // console.log('joo'+itemCategories.toString());
   for (const item of itemCategories) {
     const button = document.createElement('button');
     button.textContent = item;
     button.addEventListener('click', evt => {
-      console.log(evt.target);
+      //console.log(evt.target);
       clearContainer();
-      this.filteredArray = this.picArray.filter(c => c.category === item);
-      fillDiv(this.filteredArray);
+      //this.filteredArray = this.picArray.filter(c => c.category === item);
+      const url = '/find/' + item;
+      fetch(url, {
+        method: 'get',
+      }).then(resp => {
+        return resp.json();
+      }).then(json => {
+        console.log(JSON.stringify(json));
+        this.filteredArray = json;
+        fillDiv(json);
+      });
+      //fillDiv(this.filteredArray);
       console.log(item.title);
     });
     document.querySelector(categoryButtonsDiv).appendChild(button);
   }
 };
 
-fetch('data.json').then(res => {
-  return res.json();
-}).then(data => {
-  console.log(data);
-  this.picArray = data;
-  console.log(this.picArray);
-  fillDiv(this.picArray);
-  addCategoryButtons(this.picArray);
-  this.filteredArray = this.picArray;
-});
+const getAllFromDb = () => {
+  const url = '/getdata';
+  fetch(url, {
+    method: 'get',
+  }).then(resp => {
+    return resp.json();
+  }).then(json => {
+    this.picArray = json;
+    clearContainer();
+    fillDiv(json);
+    addCategoryButtons(json);
+    this.filteredArray = this.picArray;
+  });
+};
 
-// const url = 'http://localhost:3000/getdata';
-// fetch(url, {
-//   method: 'get',
-// }).then(data => {
-//   console.log(data);
-//   this.picArray.append(data);
-//   console.log(this.picArray);
-//   clearContainer();
-//   fillDiv(this.picArray);
-//   addCategoryButtons(this.picArray);
-//   this.filteredArray = this.picArray;
-// });
-
-
+const update = () => {
+  getAllFromDb();
+};
 
 span.onclick = () => {
   modal.style.display = 'none';
@@ -150,7 +177,7 @@ window.onclick = event => {
 
 let sortIndex = 0;
 //const sorter = ['id', 'category', 'time'];
-const sorter = ['category', 'time'];
+const sorter = ['category', 'time', 'id'];
 
 document.getElementById('sort-text').innerHTML = sorter[sortIndex];
 
@@ -206,11 +233,10 @@ const changeTab = (evt, tabName) => {
 };
 document.getElementById('defaultOpen').click();
 
-
 document.querySelector('#picForm').addEventListener('submit', (evt) => {
   evt.preventDefault();
   const data = new FormData(evt.target);
-  const fileElement = event.target.querySelector('input[type=file]');
+  const fileElement = evt.target.querySelector('input[type=file]');
   const file = fileElement.files[0];
 
   data.append('file', file);
@@ -221,13 +247,22 @@ document.querySelector('#picForm').addEventListener('submit', (evt) => {
     method: 'post',
     body: data,
   }).then((resp) => {
-    return resp.json();
+    //return resp.json();
   }).then((json) => {
     console.log(json);
-  }).then((resp) => {
     update();
     document.getElementById('defaultOpen').click();
+  }).then((resp) => {
+
   });
 });
+update();
+// addCategoryButtons(picArray);
+
+
+
+
+
+
 
 
