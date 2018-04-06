@@ -125,7 +125,7 @@ const addCategoryButtons = items => {
       //console.log(evt.target);
       clearContainer();
       //this.filteredArray = this.picArray.filter(c => c.category === item);
-      const url = '/find/' + item;
+      const url = '/find/category/' + item;
       fetch(url, {
         method: 'get',
       }).then(resp => {

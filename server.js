@@ -79,9 +79,10 @@ app.get('/getdata', (req, res) => {
   });
 });
 
-app.get('/find/:param', (req, res) => {
-  const searchParam = ''+req.params.param;
-  Pic.find({'category' : searchParam}).then(d => {
+app.get('/find/:param1/:param2', (req, res) => {
+  const searchParam = req.params.param1;
+  const findParam = req.params.param2;
+  Pic.find({'category' : findParam}).then(d => {
     console.log(d);
     res.send(d);
   });
